@@ -5,6 +5,9 @@ import six
 from social.storage.base import UserMixin, AssociationMixin, NonceMixin, \
                                 CodeMixin, BaseStorage
 
+from django.core.cache import DefaultCacheProxy
+
+cache = DefaultCacheProxy()
 
 class DjangoUserMixin(UserMixin):
     """Social Auth association model"""
@@ -32,6 +35,8 @@ class DjangoUserMixin(UserMixin):
 
     @classmethod
     def disconnect(cls, entry):
+        cache_key = 'USER_SOCIAL_AUTH:' + str(entry.uid)
+        cache.delete(cache_key)
         entry.delete()
 
     @classmethod
@@ -85,12 +90,22 @@ class DjangoUserMixin(UserMixin):
 
     @classmethod
     def get_social_auth_for_user(cls, user, provider=None, id=None):
-        qs = user.social_auth.all()
-        if provider:
-            qs = qs.filter(provider=provider)
-        if id:
-            qs = qs.filter(id=id)
-        return qs
+        use_cache = not provider and not id
+        if use_cache:
+            cache_key = 'USER_SOCIAL_AUTH:' + str(user.id)
+            social_auths = cache.get(cache_key)
+        else:
+            social_auths = None
+        if not social_auths:
+            qs = user.social_auth.all()
+            if provider:
+                qs = qs.filter(provider=provider)
+            if id:
+                qs = qs.filter(id=id)
+            social_auths = qs
+            if use_cache:
+                cache.set(cache_key, social_auths)
+        return social_auths
 
     @classmethod
     def create_social_auth(cls, user, uid, provider):

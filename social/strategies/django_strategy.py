@@ -9,6 +9,11 @@ from django.utils.encoding import force_text
 from django.utils.functional import Promise
 from django.utils.translation import get_language
 
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from django.core.cache import cache
+
 from social.strategies.base import BaseStrategy, BaseTemplateStrategy
 
 
@@ -144,3 +149,27 @@ class DjangoStrategy(BaseStrategy):
     def get_language(self):
         """Return current language"""
         return get_language()
+
+
+    def get_user(self, user_id):
+        cache_key = 'USER:' + str(user_id)
+        user = cache.get(cache_key)
+        if not user:
+            user = super(DjangoStrategy,self).get_user(user_id)
+            cache.set(cache_key, user)
+        return user
+
+
+
+
+@receiver(post_save, sender=User)
+def user_post_save_handler(sender, instance, **kwargs):
+    cache_key = 'USER:' + str(instance.id)
+    cache.set(cache_key, instance)
+
+
+@receiver(post_delete, sender=User)
+def user_post_delete_handler(sender, instance, **kwargs):
+    cache_key = 'USER:' + str(instance.id)
+    cache.delete(cache_key)
+
