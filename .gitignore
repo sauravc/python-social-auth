@@ -46,3 +46,5 @@ changelog.sh
 \#*\#
 
 .python-version
+/.idea
+
