@@ -51,6 +51,7 @@ Social backends
    angel
    aol
    appsfuel
+   arcgis
    azuread
    battlenet
    beats
@@ -68,7 +69,9 @@ Social backends
    docker
    douban
    dribbble
+   drip
    dropbox
+   edmodo
    eveonline
    evernote
    facebook
@@ -80,12 +83,14 @@ Social backends
    github_enterprise
    google
    instagram
+   itembase
    jawbone
    justgiving
    kakao
    khanacademy
    lastfm
    launchpad
+   line
    linkedin
    livejournal
    live
@@ -99,10 +104,13 @@ Social backends
    moves
    naszaklasa
    nationbuilder
+   naver
+   ngpvan_actionid
    odnoklassnikiru
    openstreetmap
    orbi
    persona
+   pinterest
    pixelpin
    pocket
    podio
@@ -114,6 +122,7 @@ Social backends
    runkeeper
    salesforce
    shopify
+   sketchfab
    skyrock
    slack
    soundcloud
@@ -133,6 +142,8 @@ Social backends
    twitch
    twitter
    uber
+   untappd
+   upwork
    vend
    vimeo
    vk

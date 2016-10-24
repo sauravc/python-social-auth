@@ -7,13 +7,12 @@ Some miscellaneous options and use cases for python-social-auth_.
 Return the user to the original page
 ------------------------------------
 
-There's a common scenario where it's desired to return the user back to the
-original page from where it was requested to login. For that purpose, the usual
-``next`` query-string argument is used, the value of this parameter will be
-stored in the session and later used to redirect the user when login was
-successful.
+There's a common scenario to return the user back to the original page from
+where they requested to login. For that purpose, the usual ``next`` query-string
+argument is used. The value of this parameter will be stored in the session and
+later used to redirect the user when login was successful.
 
-In order to use it just define it with your link, for instance, when using
+In order to use it, just define it with your link. For instance, when using
 Django::
 
     <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
@@ -144,9 +143,6 @@ will be done by AJAX. It doesn't return the user information, but that's
 something that can be extended and filled to suit the project where it's going
 to be used.
 
-This topic is well addressed in `A Rest API using Django and authentication
-with OAuth2 AND third parties!`_ wrote by `Félix Descôteaux`_.
-
 
 Multiple scopes per provider
 ----------------------------
@@ -155,7 +151,7 @@ At the moment python-social-auth_ doesn't provide a method to define multiple
 scopes for single backend, this is usually desired since it's recommended to
 ask the user for the minimum scope possible and increase the access when it's
 really needed. It's possible to add a new backend extending the original one to
-accomplish that behavior, there are two ways to do it.
+accomplish that behavior. There are two ways to do it.
 
 1. Overriding ``get_scope()`` method::
 
@@ -314,5 +310,3 @@ Set this pipeline after ``social_user``::
 
 .. _python-social-auth: https://github.com/omab/python-social-auth
 .. _People API endpoint: https://developers.google.com/+/api/latest/people/list
-.. _Félix Descôteaux: https://twitter.com/FelixDescoteaux
-.. _A Rest API using Django and authentication with OAuth2 AND third parties!: http://httplambda.com/a-rest-api-with-django-and-oauthw-authentication/
